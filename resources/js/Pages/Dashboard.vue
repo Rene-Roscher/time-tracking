@@ -1,11 +1,15 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue';
+import {onMounted, onUnmounted, ref, toRefs} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 
 // Only for testing locales
 import {loadLanguageAsync, trans} from 'laravel-vue-i18n';
+import {usePage} from "@inertiajs/vue3";
+
 const locale = ref('en');
+
+const page = usePage();
 
 onMounted(() => locale.value = window.navigator.language.split('-')[0]);
 
@@ -13,6 +17,17 @@ const changeLocale = (lang) => {
   loadLanguageAsync(lang);
   locale.value = lang;
 }
+
+// onMounted(() => {
+//   Echo.private(`App.Models.User.${page.props.auth.user.id}`)
+//       .listen('Notify', (event) => {
+//         console.log(event);
+//       });
+// });
+//
+// onUnmounted(() => {
+//   Echo.leave(`App.Models.User.${page.props.auth.user.id}`);
+// });
 </script>
 
 <template>
@@ -32,7 +47,9 @@ const changeLocale = (lang) => {
           </div>
           <hr class="border border-gray-50">
           <div class="w-full p-4">
-            {{ trans('Taylor Otwell is an American software engineer and entrepreneur, best known as the creator of the Laravel PHP framework. He has been involved in web development since the early 2000s and has been a significant contributor to the PHP community. In addition to Laravel, he has also created a number of other popular open-source projects and tools, including Forge, Envoyer, and Spark. Otwell is widely regarded as one of the leading figures in the PHP community, and he continues to be active in the development of Laravel and other projects.') }}
+            {{
+              trans('Taylor Otwell is an American software engineer and entrepreneur, best known as the creator of the Laravel PHP framework. He has been involved in web development since the early 2000s and has been a significant contributor to the PHP community. In addition to Laravel, he has also created a number of other popular open-source projects and tools, including Forge, Envoyer, and Spark. Otwell is widely regarded as one of the leading figures in the PHP community, and he continues to be active in the development of Laravel and other projects.')
+            }}
           </div>
         </div>
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import {onMounted, onUnmounted, ref} from 'vue';
+import {Head, Link, router, usePage} from '@inertiajs/vue3';
 import JetApplicationMark from '@/Components/ApplicationMark.vue';
 import JetBanner from '@/Components/Banner.vue';
 import JetDropdown from '@/Components/Dropdown.vue';
@@ -25,6 +25,26 @@ const switchToTeam = (team) => {
 const logout = () => {
   router.post(route('logout'));
 };
+
+const page = usePage();
+
+onMounted(() => {
+  Echo.private(`App.Models.User.${page.props.user.id}`)
+      // .listen('*', (event) => {
+      //   console.log(event);
+      // })
+      .notification((notification) => {
+        console.log(notification);
+        // notifications.value.push({
+        //   show: true,
+        //   content: notification.content,
+        // })
+      });
+});
+
+onUnmounted(() => {
+  Echo.leave(`App.Models.User.${page.props.user.id}`);
+});
 </script>
 
 <template>
