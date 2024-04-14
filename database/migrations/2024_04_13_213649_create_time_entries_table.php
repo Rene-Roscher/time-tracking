@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('time_entries', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->foreignId('task_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->timestamp('start_time');
+            $table->timestamp('end_time')->nullable();
+            $table->unsignedInteger('duration')
+                ->virtualAs('TIMESTAMPDIFF(SECOND, start_time, IFNULL(end_time, NOW()))');
             $table->timestamps();
         });
     }

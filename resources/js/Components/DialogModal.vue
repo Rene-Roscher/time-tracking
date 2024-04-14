@@ -18,9 +18,7 @@ defineProps({
     },
 });
 
-const close = () => {
-    emit('close');
-};
+const close = () => emit('close');
 </script>
 
 <template>

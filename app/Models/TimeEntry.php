@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+/**
+ * @mixin IdeHelperTimeEntry
+ */
 class TimeEntry extends Model
 {
     protected $fillable = [
@@ -9,15 +12,12 @@ class TimeEntry extends Model
         'user_id',
         'start_time',
         'end_time',
+        'duration',
     ];
 
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
-    ];
-
-    protected $appends = [
-        'duration',
     ];
 
     public function task()
@@ -30,8 +30,4 @@ class TimeEntry extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function duration()
-    {
-        return $this->start_time->diff($this->end_time);
-    }
 }

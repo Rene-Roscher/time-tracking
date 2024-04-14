@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->enum('status', \App\Enums\TaskStatusEnum::values())
+                ->default(\App\Enums\TaskStatusEnum::PENDING);
+            $table->timestamp('due_date')->nullable();
             $table->timestamps();
         });
     }

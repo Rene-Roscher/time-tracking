@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Enums\RoleEnum;
 use App\Models\Role;
+use App\Models\Task;
+use App\Policies\TaskPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Task::class => TaskPolicy::class,
     ];
 
     /**
@@ -25,8 +27,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole(RoleEnum::SUPER_ADMIN->value) ? true : null;
-        });
+        $this->registerPolicies();
+
+//        Gate::before(function ($user, $ability) {
+//            return $user->hasRole(RoleEnum::SUPER_ADMIN->value) ? true : null;
+//        });
     }
 }
